@@ -1,7 +1,7 @@
 #!/bin/bash
 # Stops Script on First Error
 set -e
-echo Welcome to the Jungle
+echo Loading environment...
 
 # ====EXIT script====
   exit 2    # Misuse of shell builtins (according to Bash documentation)
