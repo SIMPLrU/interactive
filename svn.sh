@@ -1,7 +1,7 @@
 #!/bin/bash
 # Stops Script on First Error
 set -e
-echo Loading environment...
+echo loading environment...
 
 # ====EXIT script====
   exit 2    # Misuse of shell builtins (according to Bash documentation)
