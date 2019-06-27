@@ -62,26 +62,14 @@ echo "Verifying Install..."
 sleep 3s
 cd $HOME
 sleep 3s
-# echo "Kong Enterprise Installed"
+echo "Kong Enterprise Installed"
 
-# Access shell
-docker exec -it  kong-ee  /bin/sh
+echo "Enable Kong Manager for Basic-Auth
 
-# create and check kong.conf file
-cd  /etc/kong/
-cp kong.conf.default kong.conf
-kong check
+docker cp ~/KONG/konglabs/sessions.sh kong-ee:/sessions.sh
+docker exec -it kong-ee /bin/sh "/sessions.sh"
 
-# Enable RBAC, ADMIN_GUI_AUTH, ADMIN_GUI_SESSION_CONF
-KONG_ENFORCE_RBAC=on \
-KONG_ADMIN_GUI_AUTH=basic-auth \
-KONG_ADMIN_GUI_SESSION_CONF='{ "secret":"admin_secret", "cookie_secure":false, "storage":"kong", "cookie_name":"kookie", "cookie_samesite":"off" }' \
-kong reload kong.conf --vv | grep -e 'admin_gui_session_conf'
-
-# Exit Shell
-exit
-
-http get :8001
+echo "Environment is ready" 
 
 
 
