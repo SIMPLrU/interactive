@@ -64,7 +64,7 @@ cd $HOME
 sleep 3s
 echo "Kong Enterprise Installed"
 
-echo "Enable Kong Manager for Basic-Auth
+echo "Enable Kong Manager for Basic-Auth"
 
 docker cp ~/KONG/konglabs/sessions.sh kong-ee:/sessions.sh
 docker exec -it kong-ee /bin/sh "/sessions.sh"
