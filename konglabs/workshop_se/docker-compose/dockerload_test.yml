@@ -1,6 +1,18 @@
 version: "3"
 services:
 
+ kong-load:
+  build: .
+  image: kong-ee
+  command: "cd /root/.kong && docker load -i httpbin.tar"
+  networks:
+   - kong-net
+  restart: on-failure
+  links:
+   - postgres
+  depends_on: 
+   - postgres 
+
 ############################
 # Kong database migration
 ############################
