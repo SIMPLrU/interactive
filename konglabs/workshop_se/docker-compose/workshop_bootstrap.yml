@@ -1,5 +1,9 @@
 version: "3"
 services:
+
+############################
+# Kong database migration
+############################
  kong-migration:
   build: .
   image: kong-ee
@@ -17,6 +21,10 @@ services:
    - postgres
   depends_on: 
    - postgres 
+
+############################
+# httpbin backend service
+############################   
  httpbin:
   image: kennethreitz/httpbin
   container_name: httpbin
@@ -38,6 +46,10 @@ services:
    - kong-net
   ports:
     - 3005:3000
+
+############################
+# Grafana - metric analytics
+############################ 
  grafana:
   image: grafana/grafana
   container_name: grafana
@@ -47,6 +59,10 @@ services:
     - ./cfg/grafana/:/etc/grafana/provisioning/
   ports:
    - 10100:3000
+
+############################
+# Prometheus - monitory
+############################ 
  prometheus:
   image: prom/prometheus
   container_name: prometheus
@@ -58,6 +74,10 @@ services:
   command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
   ports:
    - 9090:9090
+
+############################
+# Postgres - Kong Database
+############################ 
  postgres:
   image: postgres:9.6
   networks:
@@ -69,6 +89,10 @@ services:
    - POSTGRES_DB=kong
   # volumes:
   # - ./postgres-data:/var/lib/postgresql/data
+
+############################
+# Kong - API Gateway
+############################ 
  kong-ent:
   image: kong-ee
   container_name: kong-ent
