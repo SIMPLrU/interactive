@@ -7,7 +7,7 @@ networks:
   kong-net:
 services:
   kong-migrations:
-    image: "${KONG_DOCKER_TAG:-kong:latest}"
+    image: "${KONG_DOCKER_TAG:-kong-ee:latest}"
     command: kong migrations bootstrap
     depends_on:
       db:
@@ -24,7 +24,7 @@ services:
       - kong-net
     restart: on-failure
   kong-migrations-up:
-    image: "${KONG_DOCKER_TAG:-kong:latest}"
+    image: "${KONG_DOCKER_TAG:-kong-ee:latest}"
     command: kong migrations up
     depends_on:
       db:
