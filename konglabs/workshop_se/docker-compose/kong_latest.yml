@@ -72,7 +72,7 @@ services:
       retries: 10
     restart: on-failure
   db:
-    image: postgres:9.5
+    image: postgres:9.6
     environment:
       POSTGRES_DB: ${KONG_PG_DATABASE:-kong}
       POSTGRES_PASSWORD: ${KONG_PG_PASSWORD:-kong}
