@@ -1,0 +1,36 @@
+###############################
+## Httpbin Server - Redis
+###############################
+apiVersion: v1
+kind: Service
+metadata:
+  name: httpbin-2
+  labels:
+    app: httpbin-2
+spec:
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: httpbin-2
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: httpbin-2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: httpbin-2
+  template:
+    metadata:
+      labels:
+        app: httpbin-2
+    spec:
+      containers:
+      - image: docker.io/kennethreitz/httpbin
+        name: httpbin-2
+        ports:
+        - containerPort: 80
