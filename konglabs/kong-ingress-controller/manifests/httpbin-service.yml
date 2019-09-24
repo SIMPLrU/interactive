@@ -37,6 +37,7 @@ spec:
 ###############################
 ## Httpbin Server - Redis
 ###############################
+---
 apiVersion: v1
 kind: Service
 metadata:
