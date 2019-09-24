@@ -1,8 +1,6 @@
 ###############################
 ## Httpbin Server
 ###############################
----
-echo "
 apiVersion: v1
 kind: Service
 metadata:
