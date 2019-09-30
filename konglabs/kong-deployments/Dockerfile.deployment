@@ -1,0 +1,7 @@
+ARG KONG_VERSION=1.3.0
+
+FROM kong:${KONG_VERSION}
+
+RUN luarocks install kong-plugin-uppercase-response
+
+ENV kong_plugins=bundled,uppercase-response

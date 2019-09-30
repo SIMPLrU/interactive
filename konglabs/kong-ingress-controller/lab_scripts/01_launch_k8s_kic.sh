@@ -72,6 +72,7 @@ curl -i $PROXY_IP
 ############################################################################
 
 
+
 ############################################################################
 # Deploy Kong Ingress Controller - Database-less
 ############################################################################
@@ -81,11 +82,13 @@ kubectl apply -f https://bit.ly/kong-ingress-dbless #TODO move to image
 
 clear 
 echo "Kong Ingress Controller is launching..."
-sleep 20s
-
-clear
-echo "Kong Ingress Controller is preparing..."
 sleep 5s
+
+echo "Kong Ingress Controller is preparing..."
+sleep 2s
+
+# Wait for ingress-kong to start 
+kubectl wait --timeout=400s --for=condition=Ready -n kong pods -l app=ingress-kong
 
 # get kong pods
 kubectl get pods -n kong
@@ -99,13 +102,15 @@ echo $PROXY_IP
 
 clear 
 echo "Kong Ingress Controller is finalizing..."
-sleep 10s
+sleep 5s
+
 # Verify
 curl -i $PROXY_IP
 
 ############################################################################
 # Deploy Kong Ingress Controller - Database-less
 ############################################################################
+
 
 
 
@@ -117,13 +122,20 @@ curl -i $PROXY_IP
 curl -sL  https://bit.ly/sample-echo-service | kubectl apply -f -
 curl -sL  https://bit.ly/sample-httpbin-service | kubectl apply -f -
 
+# Wait for services to deploy
 sleep 5s
+echo "please wait, sample services deploying..."
 kubectl wait --timeout=400s --for=condition=Ready -n default pods -l app=echo
 kubectl wait --timeout=400s --for=condition=Ready -n default pods -l app=httpbin
 kubectl wait --timeout=400s --for=condition=Ready -n default pods -l app=httpbin-2
+echo "sample services deployed..."
 
-echo "echo, httpbin and httpbin-2 services deployed..."
 # Verify Pods are running
 kubectl get pods -n default
+
+
+############################################################################
+# Deploy Sample Services
+############################################################################
 
 
