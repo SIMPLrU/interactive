@@ -108,7 +108,7 @@ spec:
   - metadata:
       name: es-data
     spec:
-      accessModes: [ "ReadWriteMany" ]
+      accessModes: [ "ReadWriteMany" ] #! Orginal ReadWriteOnce
       resources:
         requests:
           storage: 5Gi
