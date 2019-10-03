@@ -28,4 +28,5 @@ cleanup:
 	kubectl delete service echo -n default
 	kubectl delete service httpbin -n default
 	kubectl delete service httpbin-2 -n default
+		
 
