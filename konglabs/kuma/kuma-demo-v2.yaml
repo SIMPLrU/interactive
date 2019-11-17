@@ -1,0 +1,341 @@
+1 apiVersion: v1
+      2 kind: Namespace
+      3 metadata:
+      4   name: kuma-demo
+      5   namespace: kuma-demo
+      6   labels:
+      7     kuma.io/sidecar-injection: enabled
+      8 ---
+      9 apiVersion: v1
+     10 kind: ServiceAccount
+     11 metadata:
+     12   name: elasticsearch
+     13   namespace: kuma-demo
+     14 ---
+     15 apiVersion: v1
+     16 kind: Service
+     17 metadata:
+     18   namespace: kuma-demo
+     19   name: elasticsearch
+     20   labels:
+     21     component: elasticsearch
+     22 spec:
+     23   type: LoadBalancer
+     24   selector:
+     25     component: elasticsearch
+     26   ports:
+     27   - name: http
+     28     port: 80
+     29     targetPort: 9200
+     30   type: ClusterIP
+     31 ---
+     32 apiVersion: v1
+     33 kind: ReplicationController
+     34 metadata:
+     35   name: es
+     36   namespace: kuma-demo
+     37   labels:
+     38     component: elasticsearch
+     39 spec:
+     40   replicas: 1
+     41   template:
+     42     metadata:
+     43       labels:
+     44         component: elasticsearch
+     45     spec:
+     46       serviceAccount: elasticsearch
+     47       initContainers:
+     48       - name: init-sysctl
+     49         image: busybox
+     50         imagePullPolicy: IfNotPresent
+     51         command: ["sysctl", "-w", "vm.max_map_count=262144"]
+     52         securityContext:
+     53           privileged: true
+     54       containers:
+     55       - name: es
+     56         securityContext:
+     57           capabilities:
+     58             add:
+     59               - IPC_LOCK
+     60         image: kvn0218/kuma-elastic-kubernetes:latest
+     61         env:
+     62         - name: KUBERNETES_CA_CERTIFICATE_FILE
+     63           value: /var/run/secrets/kubernetes.io/serviceaccount/ca.crt
+     64         - name: NAMESPACE
+     65           valueFrom:
+     66             fieldRef:
+     67               fieldPath: metadata.namespace
+     68         - name: "CLUSTER_NAME"
+     69           value: "myesdb"
+     70         - name: "DISCOVERY_SERVICE"
+     71           value: "elasticsearch"
+     72         - name: NODE_MASTER
+     73           value: "true"
+     74         - name: NODE_DATA
+     75           value: "true"
+     76         - name: HTTP_ENABLE
+     77           value: "true"
+     78         - name: NETWORK_HOST
+     79           value: "0.0.0.0"
+     80         ports:
+     81         - containerPort: 9200
+     82           name: http
+     83           protocol: TCP
+     84         - containerPort: 9300
+     85           name: transport
+     86           protocol: TCP
+     87         volumeMounts:
+     88         - mountPath: /data
+     89           name: storage
+     90       volumes:
+     91       - name: storage
+     92         emptyDir: {}
+     93 ---
+     94 apiVersion: apps/v1
+     95 kind: Deployment
+     96 metadata:
+     97   name: redis-master
+     98   namespace: kuma-demo
+     99   labels:
+    100     app: redis
+    101 spec:
+    102   selector:
+    103     matchLabels:
+    104       app: redis
+    105       role: master
+    106       tier: backend
+    107   replicas: 1
+    108   template:
+    109     metadata:
+    110       labels:
+    111         app: redis
+    112         role: master
+    113         tier: backend
+    114     spec:
+    115       containers:
+    116       - name: master
+    117         image: kvn0218/kuma-redis
+    118         resources:
+    119           requests:
+    120             cpu: 100m
+    121             memory: 128Mi
+    122           limits:
+    123             cpu: 150m
+    124             memory: 256Mi
+    125         ports:
+    126         - containerPort: 6379
+    127 ---
+    128 apiVersion: v1
+    129 kind: Service
+    130 metadata:
+    131   name: redis
+    132   namespace: kuma-demo
+    133   labels:
+    134     app: redis
+    135     role: master
+    136     tier: backend
+    137 spec:
+    138   ports:
+    139   - port: 6379
+    140     targetPort: 6379
+    141   selector:
+    142     app: redis
+    143     role: master
+    144     tier: backend
+    145 ---
+    146 apiVersion: v1
+    147 kind: Service
+    148 metadata:
+    149   name: backend
+    150   namespace: kuma-demo
+    151 spec:
+    152   selector:
+    153     app: kuma-demo-backend
+    154   ports:
+    155   - name: api
+    156     port: 3001
+    157 ---
+    158 apiVersion: apps/v1
+    159 kind: Deployment
+    160 metadata:
+    161   name: kuma-demo-backend-v0
+    162   namespace: kuma-demo
+    163 spec:
+    164   replicas: 0
+    165   selector:
+    166     matchLabels:
+    167       app: kuma-demo-backend
+    168       version: v0
+    169       env: prod
+    170   template:
+    171     metadata:
+    172       labels:
+    173         app: kuma-demo-backend
+    174         version: v0
+    175         env: prod
+    176     spec:
+    177       containers:
+    178       - image: kvn0218/kuma-demo-be:v1
+    179         name: kuma-be
+    180         env:
+    181         - name: ES_HOST
+    182           value: http://elasticsearch:80
+    183         - name: ES_SPECIAL_OFFER
+    184           value: "false"
+    185         - name: REDIS_HOST
+    186           value: redis
+    187         imagePullPolicy: IfNotPresent
+    188         ports:
+    189         - containerPort: 3001
+    190 ---
+    191 apiVersion: apps/v1
+    192 kind: Deployment
+    193 metadata:
+    194   name: kuma-demo-backend-v1
+    195   namespace: kuma-demo
+    196 spec:
+    197   replicas: 0
+    198   selector:
+    199     matchLabels:
+    200       app: kuma-demo-backend
+    201       version: v1
+    202       env: intg
+    203   template:
+    204     metadata:
+    205       labels:
+    206         app: kuma-demo-backend
+    207         version: v1
+    208         env: intg
+    209     spec:
+    210       containers:
+    211       - image: kvn0218/kuma-demo-be:v1
+    212         name: kuma-be
+    213         env:
+    214         - name: ES_HOST
+    215           value: http://elasticsearch:80
+    216         - name: REDIS_HOST
+    217           value: redis
+    218         imagePullPolicy: IfNotPresent
+    219         ports:
+    220         - containerPort: 3001
+    221 ---
+    222 apiVersion: apps/v1
+    223 kind: Deployment
+    224 metadata:
+    225   name: kuma-demo-backend-v2
+    226   namespace: kuma-demo
+    227 spec:
+    228   replicas: 1
+    229   selector:
+    230     matchLabels:
+    231       app: kuma-demo-backend
+    232       version: v2
+    233       env: dev
+    234   template:
+    235     metadata:
+    236       labels:
+    237         app: kuma-demo-backend
+    238         version: v2
+    239         env: dev
+    240     spec:
+    241       containers:
+    242       - image: kvn0218/kuma-demo-be:v1
+    243         name: kuma-be
+    244         env:
+    245         - name: ES_HOST
+    246           value: http://elasticsearch:80
+    247         - name: ES_TOTAL_OFFER
+    248           value: "2"
+    249         - name: REDIS_HOST
+    250           value: redis
+    251         imagePullPolicy: IfNotPresent
+    252         ports:
+    253         - containerPort: 3001
+    254 ---
+    255 apiVersion: v1
+    256 kind: ConfigMap
+    257 metadata:
+    258   name: demo-app-config
+    259   namespace: kuma-demo
+    260 data:
+    261   nginx.conf: |
+    262     user  nginx;
+    263     worker_processes  1;
+    264     error_log  /var/log/nginx/error.log warn;
+    265     pid        /var/run/nginx.pid;
+    266     events {
+    267         worker_connections  1024;
+    268     }
+    269     http {
+    270         default_type  application/octet-stream;
+    271         log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    272                           '$status $body_bytes_sent "$http_referer" '
+    273                           '"$http_user_agent" "$http_x_forwarded_for"';
+    274         access_log  /var/log/nginx/access.log  main;
+    275         keepalive_timeout  65;
+    276         upstream frontend {
+    277             server localhost:8080;
+    278         }
+    279         upstream backend {
+    280             server backend:3001;
+    281             keepalive_timeout 0s;
+    282         }
+    283         server {
+    284             listen       80;
+    285             server_name  localhost;
+    286             location /items {
+    287                 proxy_pass http://backend;
+    288             }
+    289             location / {
+    290                 proxy_pass http://frontend;
+    291             }
+    292         }
+    293     }
+    294 ---
+    295 apiVersion: v1
+    296 kind: Service
+    297 metadata:
+    298   name: frontend
+    299   namespace: kuma-demo
+    300 spec:
+    301   selector:
+    302     app: kuma-demo-frontend
+    303   ports:
+    304   - name: http
+    305     port: 80
+    306 ---
+    307 apiVersion: apps/v1
+    308 kind: Deployment
+    309 metadata:
+    310   name: kuma-demo-app
+    311   namespace: kuma-demo
+    312 spec:
+    313   replicas: 1
+    314   selector:
+    315     matchLabels:
+    316       app: kuma-demo-frontend
+    317       version: v8
+    318       env: prod
+    319   template:
+    320     metadata:
+    321       labels:
+    322         app: kuma-demo-frontend
+    323         version: v8
+    324         env: prod
+    325     spec:
+    326       containers:
+    327       - image: nginx
+    328         name: nginx
+    329         imagePullPolicy: IfNotPresent
+    330         ports:
+    331         - containerPort: 80
+    332         volumeMounts:
+    333         - name: demo-app-config
+    334           mountPath: /etc/nginx/
+    335       - name: kuma-fe
+    336         image: kvn0218/kuma-demo-fe:kubecon
+    337         imagePullPolicy: IfNotPresent
+    338       volumes:
+    339       - name: demo-app-config
+    340         configMap:
+    341           name: demo-app-config
