@@ -80,10 +80,14 @@ services:
   image: kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition:1.3-alpine
   container_name: kong-ent-bootstrap
   hostname: kongBootstrap
+  links:
+   - postgres
   depends_on:
    - postgres
   restart: on-failure
   command: "kong migrations bootstrap"
+  networks:
+   - kong-net
   environment:
    - KONG_LICENSE_DATA=$KONG_LICENSE_DATA
    - KONG_PASSWORD=KongRul3z!
@@ -112,6 +116,8 @@ services:
    - 8445:8445
    - 8446:8446
    - 8447:8447
+  networks:
+   - kong-net
   command: "kong start --run-migrations" #NOT PRODUCTION
   environment:
    #- KONG_ENFORCE_RBAC=on
@@ -124,7 +130,7 @@ services:
    - KONG_PORTAL=on
 #   - KONG_PORTAL_AUTH=openid-connect
 #   - KONG_PORTAL_AUTH=basic-auth
-   - KONG_PORTAL_AUTH_CONF=${KONG_PORTAL_AUTH_CONF} #?
+   - KONG_PORTAL_AUTH_CONF=$KONG_PORTAL_AUTH_CONF #?
    - KONG_ADMIN_GUI_URL=$KONG_GUI #KJG
    - KONG_DATABASE=postgres
    - KONG_PG_HOST=postgres
