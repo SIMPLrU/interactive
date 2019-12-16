@@ -114,9 +114,11 @@ services:
    - kong-net
   command: "kong start --run-migrations bootstrap" #NOT PRODUCTION
   environment:
-#   - KONG_ENFORCE_RBAC=on
-   - KONG_ADMIN_GUI_AUTH=basic-auth # Enabled for Production
-   - KONG_ADMIN_GUI_SESSION_CONF={"secret":"secret","storage":"kong","cookie_secure":false} # Enabled for production
+   - KONG_ENFORCE_RBAC=on # Enabled for Kong Jungle Gym
+   - KONG_ADMIN_GUI_AUTH=basic-auth # Enabled for Kong Jungle Gym
+   - KONG_ADMIN_GUI_SESSION_CONF={"secret":"secret","storage":"kong","cookie_secure":false} # SVENS
+   - KONG_ADMIN_GUI_SESSION_CONF='{ "secret":"admin_secret", "cookie_secure":false, "storage":"kong", "cookie_name":"kookie", "cookie_samesite":"off" }' #Enabled for Kong Jungle Gym
+
    - KONG_AUDIT_LOG=on
    - KONG_LOG_LEVEL=debug
    - KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST
@@ -141,7 +143,7 @@ services:
    - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002, 0.0.0.0:8445 ssl
    - KONG_PORTAL_GUI_LISTEN=0.0.0.0:8003, 0.0.0.0:8446 ssl
    - KONG_PORTAL_API_LISTEN=0.0.0.0:8004, 0.0.0.0:8447 ssl
-   - KONG_PORTAL_SESSION_CONF={"storage":"kong","cookie_name":"portal_session","secret":"super-secret","cookie_secure":false} # Enabled for Production
+#  - KONG_PORTAL_SESSION_CONF={"storage":"kong","cookie_name":"portal_session","secret":"super-secret","cookie_secure":false}
    - KONG_PORTAL_EMAILS_FROM=training@apim.eu
    - KONG_PORTAL_EMAILS_REPLY_TO=training@apim.eu
    - KONG_SMTP_MOCK=off
