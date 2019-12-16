@@ -85,7 +85,7 @@ services:
   restart: on-failure
   command: "kong migrations bootstrap"
   environment:
-# - 'KONG_LICENSE_DATA=KONG_LICENSE_DATA_PLACEHOLDER'
+   - KONG_LICENSE_DATA=$KONG_LICENSE_DATA
    - KONG_PASSWORD=kong_admin
    - KONG_AUDIT_LOG=on
    - KONG_LOG_LEVEL=debug
@@ -150,7 +150,7 @@ services:
    - KONG_SMTP_AUTH_TYPE=plain
    - KONG_SMTP_STARTTLS=on
    - KONG_SMTP_USERNAME=training@apim.eu
-   - KONG_SMTP_PASSWORD=KongRul3z!
+   - KONG_SMTP_PASSWORD=kong_admin!
    - KONG_SMTP_ADMIN_EMAILS=training@apim.eu
    - KONG_VITALS_STRATEGY=database # or 'influxdb' or 'prometheus' or 'database'
    - KONG_VITALS_TSDB_ADDRESS=prometheus:9090
