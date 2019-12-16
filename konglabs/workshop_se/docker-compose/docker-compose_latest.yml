@@ -16,7 +16,7 @@ services:
   container_name: anotherbackend
   ports:
    - 8082:80
-  netowrks:
+  networks:
    - kong-net
  placeholder:
   image: svenwal/jsonplaceholder
