@@ -119,12 +119,13 @@ services:
    #- KONG_ADMIN_GUI_SESSION_CONF={"secret":"secret","storage":"kong","cookie_secure":false}
    - KONG_AUDIT_LOG=on
    - KONG_LOG_LEVEL=debug
-   - KONG_PORTAL_GUI_HOST=localhost:8003
+   - KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST # KJG
    - KONG_PORTAL_GUI_PROTOCOL=http
    - KONG_PORTAL=on
 #   - KONG_PORTAL_AUTH=openid-connect
 #   - KONG_PORTAL_AUTH=basic-auth
-   - KONG_ADMIN_GUI_URL=http://localhost:8002
+   - KONG_PORTAL_AUTH_CONF=${KONG_PORTAL_AUTH_CONF} #?
+   - KONG_ADMIN_GUI_URL=$KONG_GUI #KJG
    - KONG_DATABASE=postgres
    - KONG_PG_HOST=postgres
    - KONG_CASSANDRA_CONTACT_POINTS=cassandra
