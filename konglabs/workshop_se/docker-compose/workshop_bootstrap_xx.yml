@@ -78,15 +78,15 @@ services:
 ############################
 # syslog
 ############################ 
-  image: pbertera/syslogserver
-  container_name: syslog
-  networks:
-    - kong-net
-  ports:
-   - 10200:80
-  environment:
-   - SYSLOG_USERNAME=admin  
-   - SYSLOG_PASSWORD=admin
+#   image: pbertera/syslogserver
+#   container_name: syslog
+#  networks:
+#    - kong-net
+#  ports:
+#   - 10200:80
+#  environment:
+#   - SYSLOG_USERNAME=admin  
+#   - SYSLOG_PASSWORD=admin
 
 ############################
 # Postgres - Kong Database
