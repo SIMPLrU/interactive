@@ -120,7 +120,7 @@ services:
    - kong-net
   command: "kong start --run-migrations" #NOT PRODUCTION
   environment:
-   - KONG_ENFORCE_RBAC=on #KJG
+   # - KONG_ENFORCE_RBAC=on #KJG
    - KONG_ADMIN_GUI_AUTH=basic-auth #KJG 
    - KONG_ADMIN_GUI_SESSION_CONF={"secret":"secret","storage":"kong","cookie_secure":false, "cookie_name":"kookie", "cookie_samesite":"off"} #KJG
    - KONG_AUDIT_LOG=on
@@ -144,7 +144,7 @@ services:
    - KONG_ADMIN_ERROR_LOG=/dev/stderr
    - KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl
    - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
-   - KONG_ADMIN_GUI_LISTEN=0.0.0.0:80, 0.0.0.0:8445 ssl
+   - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002, 0.0.0.0:8445 ssl
    - KONG_PORTAL_GUI_LISTEN=0.0.0.0:8003, 0.0.0.0:8446 ssl
    - KONG_PORTAL_API_LISTEN=0.0.0.0:8004, 0.0.0.0:8447 ssl
    - KONG_PORTAL_SESSION_CONF={"storage":"kong","cookie_name":"portal_session","secret":"super-secret","cookie_secure":false}
