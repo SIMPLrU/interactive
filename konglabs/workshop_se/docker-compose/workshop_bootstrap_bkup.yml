@@ -61,7 +61,7 @@ services:
    - 10100:3000
 
 ############################
-# Prometheus - monitory
+# Prometheus - monitoring
 ############################ 
  prometheus:
   image: prom/prometheus
