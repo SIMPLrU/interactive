@@ -39,7 +39,6 @@ services:
   ports:
    - 10100:3000
 
-
 ############################
 # Prometheus - monitoring
 ############################ 
@@ -54,6 +53,20 @@ services:
   command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
   ports:
    - 9090:9090
+
+############################
+# syslog - logs
+############################ 
+ syslog:
+  image: pbertera/syslogserver
+  container_name: syslog
+  networks:
+   - kong-net
+  ports:
+   - 10200:80
+  environment:
+   - SYSLOG_USERNAME=admin  
+   - SYSLOG_PASSWORD=admin
 
 ############################
 # Postgres - Kong Database
@@ -129,7 +142,7 @@ services:
    - KONG_PORTAL_GUI_PROTOCOL=http
    - KONG_PORTAL=on
 #   - KONG_PORTAL_AUTH=openid-connect
-#   - KONG_PORTAL_AUTH=basic-auth
+   - KONG_PORTAL_AUTH=basic-auth #KJG
    - KONG_PORTAL_AUTH_CONF=$KONG_PORTAL_AUTH_CONF #?
    - KONG_ADMIN_GUI_URL=$KONG_GUI #KJG
    - KONG_DATABASE=postgres
@@ -147,7 +160,7 @@ services:
    - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002, 0.0.0.0:8445 ssl
    - KONG_PORTAL_GUI_LISTEN=0.0.0.0:8003, 0.0.0.0:8446 ssl
    - KONG_PORTAL_API_LISTEN=0.0.0.0:8004, 0.0.0.0:8447 ssl
-   - KONG_PORTAL_SESSION_CONF={"storage":"kong","cookie_name":"portal_session","secret":"super-secret","cookie_secure":false}
+   - KONG_PORTAL_SESSION_CONF={"secret":"secret","storage":"kong","cookie_secure":false, "cookie_name":"kookie", "cookie_samesite":"off"} #KJG
    - KONG_PORTAL_EMAILS_FROM=training@apim.eu
    - KONG_PORTAL_EMAILS_REPLY_TO=training@apim.eu
    - KONG_SMTP_MOCK=off
