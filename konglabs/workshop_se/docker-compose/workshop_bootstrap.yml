@@ -175,7 +175,7 @@ services:
    - KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST   
    - KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL
 
-# PRODUCTION SETTING - Uncomment for production settings.
+# PRODUCTION SETTING - Uncomment to enable Kong Manager in production environment.
 #   - KONG_ENFORCE_RBAC=on
 #   - KONG_ADMIN_GUI_AUTH=basic-auth
 #   - KONG_ADMIN_GUI_SESSION_CONF={"secret":"secret","storage":"kong","cookie_secure":false, "cookie_name":"kookie", "cookie_samesite":"off"}
