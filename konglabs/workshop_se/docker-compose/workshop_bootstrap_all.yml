@@ -2,6 +2,73 @@ version: "3"
 services:
 
 ############################
+# httpbin backend service
+############################  
+ httpbin:
+  image: kennethreitz/httpbin
+  container_name: httpbin
+  ports:
+   - 8081:80
+  networks:
+   - kong-net
+ anotherbackend:
+  image: kennethreitz/httpbin
+  container_name: anotherbackend
+  ports:
+   - 8082:80
+  networks:
+   - kong-net
+ placeholder:
+  image: svenwal/jsonplaceholder
+  container_name: placeholder
+  networks:
+   - kong-net
+  ports:
+    - 3005:3000
+
+############################
+# Grafana - metric analytics
+############################ 
+ grafana:
+  image: grafana/grafana
+  container_name: grafana
+  networks:
+   - kong-net
+  volumes:
+    - ./cfg/grafana/:/etc/grafana/provisioning/
+  ports:
+   - 10100:3000
+
+############################
+# Prometheus - monitoring
+############################ 
+ prometheus:
+  image: prom/prometheus
+  container_name: prometheus
+  networks:
+   - kong-net
+  hostname: prometheus
+  volumes:
+   - ./cfg/prometheus.yml:/etc/prometheus/prometheus.yml
+  command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
+  ports:
+   - 9090:9090
+
+############################
+# syslog - logs
+############################ 
+ syslog:
+  image: pbertera/syslogserver
+  container_name: syslog
+  networks:
+   - kong-net
+  ports:
+   - 10200:80
+  environment:
+   - SYSLOG_USERNAME=admin  
+   - SYSLOG_PASSWORD=admin
+
+############################
 # Postgres - Kong Database
 ############################ 
  postgres:
