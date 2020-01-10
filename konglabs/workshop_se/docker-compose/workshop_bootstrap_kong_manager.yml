@@ -108,7 +108,7 @@ services:
    - KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL
 
    # PRODUCTION SETTING - Comment to disable Kong Manager/Dev Portal
-   - KONG_ENFORCE_RBAC=off
+   - KONG_ENFORCE_RBAC=on
    - KONG_ADMIN_GUI_AUTH=basic-auth
    - KONG_ADMIN_GUI_SESSION_CONF={"secret":"admin_gui","storage":"kong","cookie_secure":false, "cookie_name":"admin_gui_kookie", "cookie_samesite":"off"}
 #   - KONG_PORTAL=on
