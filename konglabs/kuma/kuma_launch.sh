@@ -1,11 +1,13 @@
-#!/bin/bash
+# !/bin/sh
+# stops script on first error
+# set -e
 
 # DEPLOY K3S SERVER
 nohup k3s server --docker > /dev/null 2>&1 &
     
 echo "installing your kubernetes cluster...please wait"
 
-sleep 10s
+sleep 20s
 
 # Create Alias 
 alias kubectl="k3s kubectl"
