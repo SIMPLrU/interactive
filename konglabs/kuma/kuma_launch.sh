@@ -5,56 +5,59 @@
 # DEPLOY K3S SERVER
 nohup k3s server --docker > /dev/null 2>&1 &
     
-echo "Installing your Kubernetes cluster...please wait"
+echo "Installing cluster...please wait"
 
 sleep 20s
 
-echo "Deploying your cluster ..."
+echo "Deploying cluster ..."
 sleep 2s
 
-# Create Alias 
+# CREATE ALIAS 
 alias kubectl="k3s kubectl"
 sleep 5
 
-# Display Cluster Info
+# DISPLAY CLUSTER INFO
 kubectl cluster-info
 
 # WAIT FOR SERVICES
-echo  "Kubernetes cluster starting ..."
+    echo  "Starting cluster ..."
 
-# coredns #? PASSED 
-echo "Installing coredns"
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
+    # coredns #? PASSED 
+    echo "Installing coredns"
+    kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
+    echo "coredns is ready"
 
-echo "coredns is ready"
+    # metrics-server #? PASSED
+    echo "Installing metric-server"
+    kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
+    echo "metrics-server is ready"
 
-# metrics-server #? PASSED
-echo "Installing metric-server"
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
-echo "metrics-server is ready"
+    # local-path-provisioner #? PASSED
 
-# local-path-provisioner #? PASSED
+    echo "Installing local-path-provisioner"
+    kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
+    echo "local-path-provisioner is ready"
 
-echo "Installing local-path-provisioner"
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
-echo "local-path-provisioner is ready"
+    # helm-install
 
-# helm-install
+    # traefik #? PASSED
+    echo "Installing traefik"
+    kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
 
-# traefik #? PASSED
-echo "Installing traefik "
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
+    echo "traefik is ready"
 
-echo "traefik is ready"
+    # svclb-traefik
 
-# svclb-traefik
 clear 
 
-# Display Cluster Info
+# DISPLAY CLUSTER INFO
 kubectl cluster-info
 
-echo "Finalizing cluster"
+echo "Finalizing cluster ..."
 sleep 10s
 
-# Verify Cluster is working
+# VERIFY ALL PODS ARE RUNNING
 kubectl get pods --all-namespaces
+
+echo "Your cluster is ready, make sure all the pods are running"
+
