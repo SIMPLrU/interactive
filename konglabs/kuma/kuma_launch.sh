@@ -3,11 +3,16 @@
 # set -e
 
 # DEPLOY K3S SERVER
-nohup k3s server --docker > /dev/null 2>&1 &
+# nohup k3s server --docker > /dev/null 2>&1 &
+nohup k3s server --docker
     
 echo "installing your kubernetes cluster...please wait"
 
 sleep 20s
+
+
+# Display Cluster Info
+kubectl cluster-info
 
 # Create Alias 
 alias kubectl="k3s kubectl"
