@@ -39,18 +39,22 @@ echo "Installing local-path-provisioner"
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
 echo "local-path-provisioner is ready"
 
+# helm-install
+
 # traefik #? PASSED
 echo "Installing traefik "
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
 
 echo "traefik is ready"
 
-# helm-install
 # svclb-traefik
-
 clear 
+
 # Display Cluster Info
 kubectl cluster-info
+
+echo "Finalizing cluster"
+sleep 10s
 
 # Verify Cluster is working
 kubectl get pods --all-namespaces
