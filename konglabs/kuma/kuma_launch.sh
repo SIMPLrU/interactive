@@ -5,12 +5,12 @@
 # DEPLOY K3S SERVER
 nohup k3s server --docker > /dev/null 2>&1 &
     
-echo "Installing your kubernetes cluster...please wait"
+echo "Installing your Kubernetes cluster...please wait"
 
 sleep 20s
 
 echo "Deploying your cluster ..."
-echo 2s 
+sleep 2s
 
 # Create Alias 
 alias kubectl="k3s kubectl"
@@ -23,24 +23,24 @@ kubectl cluster-info
 echo  "Kubernetes cluster starting ..."
 
 # coredns #? PASSED 
-echo "installing coredns"
+echo "Installing coredns"
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
 
 echo "coredns is ready"
 
 # metrics-server #? PASSED
-echo "installing metric-server"
+echo "Installing metric-server"
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
 echo "metrics-server is ready"
 
 # local-path-provisioner #? PASSED
 
-echo "installing local-path-provisioner"
+echo "Installing local-path-provisioner"
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
 echo "local-path-provisioner is ready"
 
 # traefik #? PASSED
-echo "installing traefik "
+echo "Installing traefik "
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
 
 echo "traefik is ready"
