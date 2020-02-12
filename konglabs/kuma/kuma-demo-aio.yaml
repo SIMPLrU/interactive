@@ -1,3 +1,8 @@
+################################################################
+# Modified for KongU Workshop
+# Find original source here: 
+# https://raw.githubusercontent.com/Kong/kuma-demo/master/kubernetes/kuma-demo-aio.yaml
+###############################################################
 apiVersion: v1
 kind: Namespace
 metadata:
@@ -76,7 +81,7 @@ spec:
         - name: HTTP_ENABLE
           value: "true"
         - name: NETWORK_HOST
-          value: "0.0.0.0"          
+          value: "0.0.0.0"
         ports:
         - containerPort: 9200
           name: http
@@ -161,7 +166,7 @@ metadata:
   name: kuma-demo-backend-v0
   namespace: kuma-demo
 spec:
-  replicas: 0
+  replicas: 1
   selector:
     matchLabels:
       app: kuma-demo-backend
@@ -225,7 +230,7 @@ metadata:
   name: kuma-demo-backend-v2
   namespace: kuma-demo
 spec:
-  replicas: 1
+  replicas: 0
   selector:
     matchLabels:
       app: kuma-demo-backend
@@ -297,6 +302,8 @@ kind: Service
 metadata:
   name: frontend
   namespace: kuma-demo
+  annotations:
+    ingress.kubernetes.io/service-upstream: "true"
 spec:
   selector:
     app: kuma-demo-frontend
