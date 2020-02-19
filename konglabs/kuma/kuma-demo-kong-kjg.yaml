@@ -446,11 +446,6 @@ metadata:
   name: kong-proxy
   namespace: kuma-demo
 spec:
-  strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 25%
   externalTrafficPolicy: Local
   ports:
   - name: proxy
@@ -488,6 +483,11 @@ metadata:
   namespace: kuma-demo
 spec:
   replicas: 1
+  strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 25%
   selector:
     matchLabels:
       app: ingress-kong
