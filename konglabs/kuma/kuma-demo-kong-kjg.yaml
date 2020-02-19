@@ -446,6 +446,11 @@ metadata:
   name: kong-proxy
   namespace: kuma-demo
 spec:
+  strategy:
+  type: RollingUpdate
+  rollingUpdate:
+    maxSurge: 1
+    maxUnavailable: 25%
   externalTrafficPolicy: Local
   ports:
   - name: proxy
@@ -466,11 +471,6 @@ metadata:
   name: kong-validation-webhook
   namespace: kuma-demo
 spec:
-  strategy:
-  type: RollingUpdate
-  rollingUpdate:
-    maxSurge: 1
-    maxUnavailable: 25%
   ports:
   - name: webhook
     port: 443
