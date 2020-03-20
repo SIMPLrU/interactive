@@ -120,8 +120,6 @@ services:
 
  keycloak:
    image: vietsimplru/keycloak
-   networks:
-    - kong-net
    restart: always
    container_name: kong-keycloak
    environment:
@@ -129,6 +127,5 @@ services:
     - KEYCLOAK_PASSWORD=test
    ports:
     - 8080:8080
-
 networks:
   kong-net:
