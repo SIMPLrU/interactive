@@ -5,16 +5,15 @@
 # DEPLOY K3S SERVER
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
-echo "Installing cluster...please wait"
-
+echo "Installing cluster ... please wait"
 sleep 20s
 
 echo "Deploying cluster ..."
 sleep 2s
 
 # CREATE ALIAS
-alias kubectl="k3s kubectl"
-sleep 5
+# alias kubectl="k3s kubectl"
+# sleep 5
 
 # WAIT FOR SERVICES
 echo  "Starting cluster ..."
@@ -43,11 +42,12 @@ echo "local-path-provisioner is ready"
 # echo "traefik is ready"
 # svclb-traefik
 
-# DISPLAY CLUSTER INFO
-kubectl cluster-info
 
 echo "Finalizing cluster ..."
 sleep 10s
+
+# DISPLAY CLUSTER INFO
+kubectl cluster-info
 
 # VERIFY ALL PODS ARE RUNNING
 kubectl get pods --all-namespaces
