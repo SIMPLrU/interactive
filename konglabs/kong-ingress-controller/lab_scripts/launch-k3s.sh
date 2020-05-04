@@ -3,7 +3,7 @@
 # set -e
 
 # DEPLOY K3S SERVER
-nohup k3s server --docker > /dev/null 2>&1 &
+nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
 echo "Installing cluster...please wait"
 
