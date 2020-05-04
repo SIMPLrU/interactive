@@ -12,8 +12,9 @@ sleep 20s
 echo "Deploying cluster ..."
 sleep 2s
 
-# DISPLAY CLUSTER INFO
-kubectl cluster-info
+# CREATE ALIAS
+alias kubectl="k3s kubectl"
+sleep 5
 
 # WAIT FOR SERVICES
 echo  "Starting cluster ..."
@@ -41,10 +42,6 @@ echo "local-path-provisioner is ready"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
 # echo "traefik is ready"
 # svclb-traefik
-
-# CREATE ALIAS
-alias kubectl="k3s kubectl"
-sleep 5
 
 # DISPLAY CLUSTER INFO
 kubectl cluster-info
