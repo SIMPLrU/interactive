@@ -6,10 +6,13 @@
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
 echo "Installing cluster ... please wait"
-sleep 20s
+sleep 30s
 
 echo "Deploying cluster ..."
-sleep 2s
+sleep 5s
+
+echo "Finalizing cluster ..."
+sleep 10s
 
 # CREATE ALIAS
 # alias kubectl="k3s kubectl"
@@ -41,10 +44,6 @@ echo "local-path-provisioner is ready"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
 # echo "traefik is ready"
 # svclb-traefik
-
-
-echo "Finalizing cluster ..."
-sleep 10s
 
 # DISPLAY CLUSTER INFO
 kubectl cluster-info
