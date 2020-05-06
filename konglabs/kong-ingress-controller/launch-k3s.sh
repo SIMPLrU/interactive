@@ -59,17 +59,14 @@ while [ $min -ge 0 ]; do
             let "min=min-1"
     done
 
+clear
+
 # CREATE ALIAS
 # alias kubectl="k3s kubectl"
 # sleep 5
 
 # DISPLAY CLUSTER INFO
 # kubectl cluster-info
-
-echo  "Finalizing cluster ..."
-sleep 2s
-
-clear
 
 # VERIFY ALL PODS ARE RUNNING
 # kubectl get pods --all-namespaces
