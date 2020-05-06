@@ -6,7 +6,6 @@
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
 echo "Installing cluster ... please wait"
-
 # TIMER
 min=0
 sec=15
@@ -20,26 +19,8 @@ while [ $min -ge 0 ]; do
             let "min=min-1"
     done
 
-
-# secs=$((10))
-# while [ $secs -gt 0 ]; do
-#    echo -ne "$secs\033[0K\r"
-#    sleep 1
-#    : $((secs--))
-# done
-
 echo "Deploying cluster ... getting there"
-sleep 3s
-
-echo "Finalizing cluster ... almost there"
-# secs=$((10))
-# while [ $secs -gt 0 ]; do
-#   echo -ne "$secs\033[0K\r"
-#   sleep 1
-#   : $((secs--))
-# done
-
-# Timer
+# TIMER
 min=0
 sec=15
 while [ $min -ge 0 ]; do
@@ -57,9 +38,6 @@ while [ $min -ge 0 ]; do
 # sleep 5
 
 # WAIT FOR SERVICES
-echo  "Starting cluster ..."
-sleep 2s
-
 # coredns #? PASSED 
 echo "Installing coredns"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
@@ -87,6 +65,11 @@ sleep 2s
 
 # DISPLAY CLUSTER INFO
 # kubectl cluster-info
+
+echo  "Finalizing cluster ..."
+sleep 2s
+
+clear
 
 # VERIFY ALL PODS ARE RUNNING
 # kubectl get pods --all-namespaces
