@@ -6,12 +6,27 @@
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
 echo "Installing cluster ... please wait"
-secs=$((10))
-while [ $secs -gt 0 ]; do
-   echo -ne "$secs\033[0K\r"
-   sleep 1
-   : $((secs--))
-done
+
+# TIMER
+min=0
+sec=15
+while [ $min -ge 0 ]; do
+    while [ $sec -ge 0 ]; do
+        echo -ne "$hour:$min:$sec\033[0K\r"
+            let "sec=sec-1"
+            sleep 1
+        done
+        sec=59
+            let "min=min-1"
+    done
+
+
+# secs=$((10))
+# while [ $secs -gt 0 ]; do
+#    echo -ne "$secs\033[0K\r"
+#    sleep 1
+#    : $((secs--))
+# done
 
 echo "Deploying cluster ... getting there"
 sleep 3s
@@ -27,16 +42,14 @@ echo "Finalizing cluster ... almost there"
 # Timer
 min=0
 sec=15
-    while [ $min -ge 0 ]; do
-        while [ $sec -ge 0 ]; do
-            echo -ne "$hour:$min:$sec\033[0K\r"
-                let "sec=sec-1"
-                sleep 1
-            done
-            sec=59
-                let "min=min-1"
+while [ $min -ge 0 ]; do
+    while [ $sec -ge 0 ]; do
+        echo -ne "$hour:$min:$sec\033[0K\r"
+            let "sec=sec-1"
+            sleep 1
         done
-        min=59
+        sec=59
+            let "min=min-1"
     done
 
 # CREATE ALIAS
