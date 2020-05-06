@@ -6,13 +6,32 @@
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
 echo "Installing cluster ... please wait"
-sleep 30s
+secs=$((30))
+while [ $secs -gt 0 ]; do
+   echo -ne "$secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
 
-echo "Deploying cluster ..."
-sleep 5s
+clear
 
-echo "Finalizing cluster ..."
-sleep 10s
+echo "Deploying cluster ... almost there"
+secs=$((10))
+while [ $secs -gt 0 ]; do
+   echo -ne "$secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
+
+clear
+
+echo "Finalizing cluster ... so close"
+secs=$((10))
+while [ $secs -gt 0 ]; do
+   echo -ne "$secs\033[0K\r"
+   sleep 1
+   : $((secs--))
+done
 
 # CREATE ALIAS
 # alias kubectl="k3s kubectl"
@@ -31,12 +50,12 @@ echo "Installing metric-server"
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
 echo "metrics-server is ready"
 
-clear
-
 # local-path-provisioner #? PASSED
 echo "Installing local-path-provisioner"
 kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
 echo "local-path-provisioner is ready"
+
+clear
 
 # helm-install
 # traefik #? PASSED
