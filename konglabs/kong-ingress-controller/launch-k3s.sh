@@ -1,11 +1,11 @@
 #!/bin/bash
 # stops script on first error
-set -e
+# set -e
 
 # DEPLOY K3S SERVER
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
-echo "Installing cluster ... please wait"
+echo "Deploying cluster ... please wait"
 # TIMER
 min=0
 sec=15
