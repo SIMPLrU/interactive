@@ -14,7 +14,7 @@ while [ $secs -gt 0 ]; do
 done
 
 echo "Deploying cluster ... getting there"
-sleep 2s
+sleep 3s
 
 echo "Finalizing cluster ... almost there"
 secs=$((10))
@@ -30,25 +30,25 @@ done
 
 # WAIT FOR SERVICES
 echo  "Starting cluster ..."
-sleep 1s
+sleep 2s
 
 # coredns #? PASSED 
-# echo "Installing coredns"
+echo "Installing coredns"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
-echo "coredns is ready"
-sleep 1s
+# echo "coredns is ready"
+sleep 2s
 
 # metrics-server #? PASSED
-# echo "Installing metric-server"
+echo "Installing metric-server"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
-echo "metrics-server is ready"
-sleep 1s
+# echo "metrics-server is ready"
+sleep 2s
 
 # local-path-provisioner #? PASSED
-# echo "Installing local-path-provisioner"
+echo "Installing local-path-provisioner"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
-echo "local-path-provisioner is ready"
-sleep 1s
+# echo "local-path-provisioner is ready"
+sleep 2s
 
 # helm-install
 # traefik #? PASSED
