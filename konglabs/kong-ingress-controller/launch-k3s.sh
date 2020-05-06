@@ -30,22 +30,22 @@ done
 
 # WAIT FOR SERVICES
 echo  "Starting cluster ..."
-
+sleep 1s
 # coredns #? PASSED 
 # echo "Installing coredns"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
 echo "coredns is ready"
-
+sleep 1s
 # metrics-server #? PASSED
 # echo "Installing metric-server"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
 echo "metrics-server is ready"
-
+sleep 1s
 # local-path-provisioner #? PASSED
 # echo "Installing local-path-provisioner"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
 echo "local-path-provisioner is ready"
-
+sleep 1s
 # helm-install
 # traefik #? PASSED
 # echo "Installing traefik"
