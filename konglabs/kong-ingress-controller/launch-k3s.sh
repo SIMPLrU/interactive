@@ -45,7 +45,7 @@ sleep 2s
 # echo "traefik is ready"
 # svclb-traefik    
 
-echo "Deploying cluster ... getting there"
+echo "Finalizing cluster ... almost there"
 # TIMER
 min=0
 sec=15
