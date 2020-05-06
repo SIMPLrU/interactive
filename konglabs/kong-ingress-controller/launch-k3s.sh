@@ -54,7 +54,7 @@ sleep 1s
 # svclb-traefik
 
 # DISPLAY CLUSTER INFO
-# kubectl cluster-info
+kubectl cluster-info
 
 # VERIFY ALL PODS ARE RUNNING
 # kubectl get pods --all-namespaces
