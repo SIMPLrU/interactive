@@ -6,26 +6,17 @@
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     
 echo "Installing cluster ... please wait"
-secs=$((30))
+secs=$((20))
 while [ $secs -gt 0 ]; do
    echo -ne "$secs\033[0K\r"
    sleep 1
    : $((secs--))
 done
 
-clear
+echo "Deploying cluster ... getting there"
+sleep 2s
 
-echo "Deploying cluster ... almost there"
-secs=$((10))
-while [ $secs -gt 0 ]; do
-   echo -ne "$secs\033[0K\r"
-   sleep 1
-   : $((secs--))
-done
-
-clear
-
-echo "Finalizing cluster ... so close"
+echo "Finalizing cluster ... almost there"
 secs=$((10))
 while [ $secs -gt 0 ]; do
    echo -ne "$secs\033[0K\r"
@@ -41,18 +32,18 @@ done
 echo  "Starting cluster ..."
 
 # coredns #? PASSED 
-echo "Installing coredns"
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
+# echo "Installing coredns"
+# kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/coredns
 echo "coredns is ready"
 
 # metrics-server #? PASSED
-echo "Installing metric-server"
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
+# echo "Installing metric-server"
+# kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/metrics-server
 echo "metrics-server is ready"
 
 # local-path-provisioner #? PASSED
-echo "Installing local-path-provisioner"
-kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
+# echo "Installing local-path-provisioner"
+# kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
 echo "local-path-provisioner is ready"
 
 clear
@@ -72,3 +63,7 @@ kubectl get pods --all-namespaces
 
 echo "Make sure all the pods are running"
 
+# ====EXIT script====
+  exit 2    # Misuse of shell builtins (according to Bash documentation)
+  exit 0    # Success
+  exit 1    # General errors, Miscellaneous errors, such as "divide by zero" and other impermissible operations
