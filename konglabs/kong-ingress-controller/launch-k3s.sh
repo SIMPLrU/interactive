@@ -46,8 +46,6 @@ echo "metrics-server is ready"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/local-path-provisioner
 echo "local-path-provisioner is ready"
 
-clear
-
 # helm-install
 # traefik #? PASSED
 # echo "Installing traefik"
@@ -56,12 +54,12 @@ clear
 # svclb-traefik
 
 # DISPLAY CLUSTER INFO
-kubectl cluster-info
+# kubectl cluster-info
 
 # VERIFY ALL PODS ARE RUNNING
-kubectl get pods --all-namespaces
+# kubectl get pods --all-namespaces
 
-echo "Make sure all the pods are running"
+echo "Verify all the pods are running with: 'kubectl get pods --all-namespaces'"
 
 # ====EXIT script====
   exit 2    # Misuse of shell builtins (according to Bash documentation)
