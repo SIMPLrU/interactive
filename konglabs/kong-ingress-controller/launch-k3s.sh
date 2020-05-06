@@ -1,6 +1,6 @@
 #!/bin/bash
 # stops script on first error
-# set -e
+set -e
 
 # DEPLOY K3S SERVER
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
@@ -18,24 +18,6 @@ while [ $min -ge 0 ]; do
         sec=59
             let "min=min-1"
     done
-
-echo "Deploying cluster ... getting there"
-# TIMER
-min=0
-sec=15
-while [ $min -ge 0 ]; do
-    while [ $sec -ge 0 ]; do
-        echo -ne "$hour:$min:$sec\033[0K\r"
-            let "sec=sec-1"
-            sleep 1
-        done
-        sec=59
-            let "min=min-1"
-    done
-
-# CREATE ALIAS
-# alias kubectl="k3s kubectl"
-# sleep 5
 
 # WAIT FOR SERVICES
 # coredns #? PASSED 
@@ -61,7 +43,25 @@ sleep 2s
 # echo "Installing traefik"
 # kubectl wait --timeout=200s --for=condition=Available -n kube-system deployment/traefik
 # echo "traefik is ready"
-# svclb-traefik
+# svclb-traefik    
+
+echo "Deploying cluster ... getting there"
+# TIMER
+min=0
+sec=15
+while [ $min -ge 0 ]; do
+    while [ $sec -ge 0 ]; do
+        echo -ne "$hour:$min:$sec\033[0K\r"
+            let "sec=sec-1"
+            sleep 1
+        done
+        sec=59
+            let "min=min-1"
+    done
+
+# CREATE ALIAS
+# alias kubectl="k3s kubectl"
+# sleep 5
 
 # DISPLAY CLUSTER INFO
 # kubectl cluster-info
