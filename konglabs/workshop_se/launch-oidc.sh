@@ -10,6 +10,6 @@ sleep 1s
 echo "Kong and Keycloak installing..."
 sleep 5s
 
-
-
-
+echo "**** Kong-Environment*****"
+echo "Kong Manager: $KONG_GUI"
+echo "Keycloak: $KEYCLOAK_IP"
