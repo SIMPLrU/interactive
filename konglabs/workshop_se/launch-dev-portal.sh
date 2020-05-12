@@ -5,7 +5,7 @@
 cd docker-compose && docker-compose -f workshop_bootstrap_dev_portal.yml up -d
 
 echo "please wait..."
-sleep 1s
+sleep 2s
 echo "Kong Enterprise installing..."
 sleep 7s
 
@@ -13,9 +13,9 @@ n=0
 until [ "$n" -ge 5 ]
 do
    http get :8001 && break # substitute your command here
-   echo "a few more moments ..."
+   echo "just a few more moments ..."
    n=$((n+1))
-   sleep 3
+   sleep 3s
 done
 
 
