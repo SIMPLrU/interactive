@@ -10,8 +10,8 @@ echo "Kong Enterprise installing..."
 sleep 10s
 
 echo "Installing Mocking Plugin"
-docker cp tmp/kong-plugin-mocking/kong/plugins/mocking/  kong-ent:/usr/local/share/lua/5.1/kong/plugins
-docker exec -ti kong-ent /bin/sh -c "KONG_PLUGINS='bundled,mocking' kong reload" && rm -Rf tmp
+docker cp temp/kong-plugin-mocking/kong/plugins/mocking/  kong-ent:/usr/local/share/lua/5.1/kong/plugins
+docker exec -ti kong-ent /bin/sh -c "KONG_PLUGINS='bundled,mocking' kong reload" && rm -Rf temp
 
 sleep 1s
 echo "Access Kong Manager here"
