@@ -12,14 +12,14 @@ sleep 7s
 n=0
 until [ "$n" -ge 5 ]
 do
-   http get :8001 && break # substitute your command here
+   http get :8001 2>/dev/null && break # substitute your command here
    echo "just a few more moments ..."
    n=$((n+1))
    sleep 3s
 done
 
 
-echo "Installing Mocking Plugin"
+echo "Mocking Plugin installing ..."
 docker cp temp/kong-plugin-mocking/kong/plugins/mocking/  kong-ent:/usr/local/share/lua/5.1/kong/plugins
 docker exec -ti kong-ent /bin/sh -c "KONG_PLUGINS='bundled,mocking' kong reload" && rm -Rf temp
 
