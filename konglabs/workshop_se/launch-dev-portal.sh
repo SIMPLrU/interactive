@@ -11,14 +11,17 @@ sleep 2s
 echo "Kong Enterprise installing..."
 sleep 7s
 
-# Verify Kong Enterprise is installed otherwise wait
-n=0
-until [ "$n" -ge 5 ]
+# Verify Kong Enterprise is installed and started; otherwise wait
+while true
 do
-   http get :8001 2>/dev/null && echo "Kong Enterprise ready" && break # substitute your command here
-   echo "just a few more moments ..."
-   n=$((n+1))
-   sleep 3s
+    STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" localhost:8001/status)
+    if [ $STATUS_CODE -eq 200 ]; then
+	http get :8001 && echo "OK" 
+	break
+    else
+	echo "Kong not started yet - status: $STATUS_CODE. Please wait"
+        sleep 5s
+    fi
 done
 
 # Install Mocking Plugin
