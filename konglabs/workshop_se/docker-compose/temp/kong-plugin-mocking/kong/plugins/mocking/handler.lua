@@ -7,11 +7,11 @@ local random      = math.random
 
 local plugin = {
   VERSION  = "0.1",
-  PRIORITY = 1000,
+  -- Mocking plugin should execute after all other plugins
+  PRIORITY = -1,
 }
 
 local kong = kong
-local inspect = require('inspect')
 -- spec version
 local isV3 = false
 local isV2 = false
