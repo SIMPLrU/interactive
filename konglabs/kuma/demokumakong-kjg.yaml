@@ -611,7 +611,7 @@ spec:
     targetPort: 8443
   selector:
     app: ingress-kong
-  type: Nodeport
+  type: NodePort
 ---
 apiVersion: v1
 kind: Service
