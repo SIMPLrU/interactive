@@ -1,11 +1,9 @@
 #!/bin/bash
 # stops script on first error
 # set -e
-export RUNNER_ALLOW_RUNASROOT=1
 
 cd docker-compose
 docker-compose -f workshop_bootstrap.yml up -d
-
 
 
 echo "please wait..."
