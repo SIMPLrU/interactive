@@ -14,7 +14,7 @@ sleep 5s
 while true
 do
     STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" localhost:8001/status)
-    if [ $STATUS_CODE -eq 401 ]; then
+    if [ $STATUS_CODE -eq 200 ]; then
         echo "OK" 
         break
     else
