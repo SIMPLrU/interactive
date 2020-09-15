@@ -3,7 +3,7 @@
 # set -e
 
 cd docker-compose
-docker-compose -f workshop_bootstrap_summit.yml up -d
+docker-compose -f workshop_bootstrap_summit_ee.yml up -d
 
 
 echo "please wait..."
