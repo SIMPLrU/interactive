@@ -53,14 +53,8 @@ services:
   ports:
    - 8000:8000
    - 8001:8001
-   - 8002:8002
-   - 8003:8003
-   - 8004:8004
    - 8443:8443
    - 8444:8444
-   - 8445:8445
-   - 8446:8446
-   - 8447:8447
   networks:
    - kong-net
   command: "kong start --run-migrations" #NOT PRODUCTION
@@ -79,9 +73,6 @@ services:
    - KONG_ADMIN_ERROR_LOG=/dev/stderr
    - KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl
    - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
-   - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002, 0.0.0.0:8445 ssl
-   - KONG_PORTAL_GUI_LISTEN=0.0.0.0:8003, 0.0.0.0:8446 ssl
-   - KONG_PORTAL_API_LISTEN=0.0.0.0:8004, 0.0.0.0:8447 ssl
 
 # SETTING SPECIFIC TO TRAINING ENVIRONMENT
 #   - KONG_ADMIN_GUI_URL=$KONG_GUI
