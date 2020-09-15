@@ -8,7 +8,7 @@ docker-compose -f workshop_bootstrap_summit_ee.yml up -d
 
 echo "please wait..."
 sleep 1s
-echo "Kong Enterprise installing..."
+echo "Kong installing..."
 sleep 5s
 
 while true

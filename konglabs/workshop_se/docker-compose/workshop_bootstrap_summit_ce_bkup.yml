@@ -35,6 +35,7 @@ services:
   networks:
    - kong-net
   environment:
+   - KONG_LICENSE_DATA=$KONG_LICENSE_DATA
    - KONG_PASSWORD=kong_admin
    - KONG_AUDIT_LOG=on
    - KONG_LOG_LEVEL=debug
@@ -68,6 +69,7 @@ services:
    - KONG_AUDIT_LOG=on
    - KONG_LOG_LEVEL=debug
    - KONG_PORTAL_GUI_PROTOCOL=http
+   - KONG_PORTAL_AUTH_CONF=$KONG_PORTAL_AUTH_CONF #?
    - KONG_DATABASE=postgres
    - KONG_PG_HOST=postgres
    - KONG_CASSANDRA_CONTACT_POINTS=cassandra
@@ -82,12 +84,35 @@ services:
    - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002, 0.0.0.0:8445 ssl
    - KONG_PORTAL_GUI_LISTEN=0.0.0.0:8003, 0.0.0.0:8446 ssl
    - KONG_PORTAL_API_LISTEN=0.0.0.0:8004, 0.0.0.0:8447 ssl
+   - KONG_PORTAL_EMAILS_FROM=learn@konghq.com
+   - KONG_PORTAL_EMAILS_REPLY_TO=learn@konghq.com
+   - KONG_SMTP_MOCK=off
+   - KONG_SMTP_HOST=mail.konghq.com
+   - KONG_SMTP_PORT=587
+   - KONG_SMTP_AUTH_TYPE=plain
+   - KONG_SMTP_STARTTLS=on
+   - KONG_SMTP_USERNAME=learn@konghq.com
+   - KONG_SMTP_PASSWORD=kong_admin
+   - KONG_SMTP_ADMIN_EMAILS=learn@konghq.com
+   - KONG_VITALS_STRATEGY=database # or 'influxdb' or 'prometheus' or 'database'
+   - KONG_VITALS_TSDB_ADDRESS=prometheus:9090
+   - KONG_VITALS_STATSD_ADDRESS=statsd_exporter:9125
+#   - KONG_PORTAL_AUTH=openid-connect
 
 # SETTING SPECIFIC TO TRAINING ENVIRONMENT
+   - KONG_LICENSE_DATA=$KONG_LICENSE_DATA
 #   - KONG_ADMIN_GUI_URL=$KONG_GUI
    - KONG_PROXY_URL=$KONG_8000
    - KONG_ADMIN_API_URI=$KONG_8001
    - KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST   
    - KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL
+
+# PRODUCTION SETTING - Uncomment to enable Kong Manager in production environment.
+#   - KONG_ENFORCE_RBAC=on
+#   - KONG_ADMIN_GUI_AUTH=basic-auth
+#   - KONG_ADMIN_GUI_SESSION_CONF={"secret":"admin_gui_secret","storage":"kong","cookie_secure":false, "cookie_name":"admin_gui_kookie", "cookie_samesite":"off"}
+#   - KONG_PORTAL=on
+#   - KONG_PORTAL_SESSION_CONF={"secret":"portal_secret","storage":"kong","cookie_secure":false, "cookie_name":"portal_kookie", "cookie_samesite":"off"} #KJG
+#   - KONG_PORTAL_AUTH=basic-auth
 networks:
   kong-net:
