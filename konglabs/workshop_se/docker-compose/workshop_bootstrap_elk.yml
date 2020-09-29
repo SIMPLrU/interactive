@@ -185,43 +185,43 @@ services:
 ############################
 # ELK stack - Logging 
 ############################
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
-    container_name: elasticsearch
-    environment: 
-    - discovery.type=single-node
-    - xpack.security.enabled=false
-    - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
-    ports:
-    - 9200:9200
-    - 9300:9300
-    networks:
-    - kong-net
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.7.1
-    container_name: logstash
-    environment:
-    - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
-    depends_on: 
-    - elasticsearch
-    ports:
-    - 5044:5044
-    - 5045
-    - 9600:9600
-    - 12201:12201/udp
-    networks:
-    - kong-net
-    volumes:
-    - ./cfg/elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
-    - ./cfg/elk/:/usr/share/logstash/shared/:ro
-  kibana:
-    image: docker.elastic.co/kibana/kibana:7.7.1
-    container_name: kibana
-    depends_on:
-    - logstash
-    ports: 
-    - 5601:5601
-    networks:
-    - kong-net
+ elasticsearch:
+  image: docker.elastic.co/elasticsearch/elasticsearch:7.7.1
+  container_name: elasticsearch
+  environment: 
+  - discovery.type=single-node
+  - xpack.security.enabled=false
+  - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
+  ports:
+  - 9200:9200
+  - 9300:9300
+  networks:
+  - kong-net
+ logstash:
+  image: docker.elastic.co/logstash/logstash:7.7.1
+  container_name: logstash
+  environment:
+  - "LS_JAVA_OPTS=-Xms256m -Xmx256m"
+  depends_on: 
+  - elasticsearch
+  ports:
+  - 5044:5044
+  - 5045
+  - 9600:9600
+  - 12201:12201/udp
+  networks:
+  - kong-net
+  volumes:
+  - ./cfg/elk/logstash.conf:/usr/share/logstash/pipeline/logstash.conf:ro
+  - ./cfg/elk/:/usr/share/logstash/shared/:ro
+ kibana:
+  image: docker.elastic.co/kibana/kibana:7.7.1
+  container_name: kibana
+  depends_on:
+  - logstash
+  ports: 
+  - 5601:5601
+  networks:
+  - kong-net
 networks:
   kong-net:
