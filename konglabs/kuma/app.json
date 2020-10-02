@@ -1,0 +1,93 @@
+{
+    "_links": {
+        "appLinks": [
+            {
+                "href": "https://dev-513727.okta.com/home/oidc_client/0oa4giun5hZXCeaQB357/aln177a159h7Zf52X0g8",
+                "name": "oidc_client_link",
+                "type": "text/html"
+            }
+        ],
+        "deactivate": {
+            "href": "https://dev-513727.okta.com/api/v1/apps/0oa4giun5hZXCeaQB357/lifecycle/deactivate"
+        },
+        "groups": {
+            "href": "https://dev-513727.okta.com/api/v1/apps/0oa4giun5hZXCeaQB357/groups"
+        },
+        "logo": [
+            {
+                "href": "https://ok7static.oktacdn.com/assets/img/logos/default.6770228fb0dab49a1695ef440a5279bb.png",
+                "name": "medium",
+                "type": "image/png"
+            }
+        ],
+        "users": {
+            "href": "https://dev-513727.okta.com/api/v1/apps/0oa4giun5hZXCeaQB357/users"
+        }
+    },
+    "accessibility": {
+        "errorRedirectUrl": null,
+        "loginRedirectUrl": null,
+        "selfService": false
+    },
+    "created": "2020-06-27T21:20:56.000Z",
+    "credentials": {
+        "oauthClient": {
+            "autoKeyRotation": true,
+            "client_id": "0oa4giun5hZXCeaQB357",
+            "token_endpoint_auth_method": "client_secret_basic"
+        },
+        "signing": {
+            "kid": "0RfTEe4PlCggW4TTtDaAr_K2GojxUh0uryAxJ49gtQg"
+        },
+        "userNameTemplate": {
+            "template": "${source.login}",
+            "type": "BUILT_IN"
+        }
+    },
+    "features": [],
+    "id": "0oa4giun5hZXCeaQB357",
+    "label": "Kong Workshop Application",
+    "lastUpdated": "2020-09-30T15:00:14.000Z",
+    "name": "oidc_client",
+    "settings": {
+        "app": {},
+        "notifications": {
+            "vpn": {
+                "helpUrl": null,
+                "message": null,
+                "network": {
+                    "connection": "DISABLED"
+                }
+            }
+        },
+        "oauthClient": {
+            "application_type": "web",
+            "grant_types": [
+                "authorization_code"
+            ],
+            "issuer_mode": "ORG_URL",
+            "logo_uri": null,
+            "post_logout_redirect_uris": [
+                "http://localhost:8080"
+            ],
+            "redirect_uris": [
+                "http://ip10-0-250-4-btr3bfjsam0g0s1ll23g-31112.direct.z02.konglabs.io"
+            ],
+            "response_types": [
+                "code"
+            ]
+        }
+    },
+    "signOnMode": "OPENID_CONNECT",
+    "status": "ACTIVE",
+    "visibility": {
+        "appLinks": {
+            "oidc_client_link": true
+        },
+        "autoSubmitToolbar": false,
+        "hide": {
+            "iOS": true,
+            "web": true
+        }
+    }
+}
