@@ -717,7 +717,7 @@ spec:
         - /kong-ingress-controller
         - --kong-url=https://localhost:8444
         - --admin-tls-skip-verify
-        - --publish-service=kuma-demo/kong-proxy
+        - --publish-service=kong/kong-proxy
         env:
         - name: POD_NAME
           valueFrom:
