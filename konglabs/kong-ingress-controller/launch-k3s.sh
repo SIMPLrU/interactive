@@ -2,6 +2,9 @@
 # stops script on first error
 # set -e
 
+# Check if docker is active, if not: start docker
+systemctl is-active docker.service || systemctl start docker
+
 # DEPLOY K3S SERVER
 nohup k3s server . --server-arg --no-deploy --server-arg traefik --docker > /dev/null 2>&1 &
     

@@ -2,6 +2,9 @@
 # stops script on first error
 # set -e
 
+# Check if docker is active, if not: start docker
+systemctl is-active docker.service || systemctl start docker
+
 # launch-dev-portal.sh
 cd docker-compose && docker-compose -f workshop_bootstrap_dev_portal_summit.yml up -d
 
