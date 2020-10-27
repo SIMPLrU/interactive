@@ -1,9 +1,9 @@
 #!/bin/bash
 # stops script on first error
 # set -e
+systemctl is-active docker.service || systemctl start docker
 
-cd docker-compose
-docker-compose -f workshop_bootstrap_oidc_summit.yml up -d
+cd docker-compose && docker-compose -f workshop_bootstrap_oidc_summit.yml up -d
 
 echo "please wait..."
 sleep 1s

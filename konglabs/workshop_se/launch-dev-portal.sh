@@ -2,6 +2,7 @@
 # stops script on first error
 # set -e
 
+systemctl is-active docker.service || systemctl start docker
 # launch-dev-portal.sh
 cd docker-compose && docker-compose -f workshop_bootstrap_dev_portal.yml up -d
 
