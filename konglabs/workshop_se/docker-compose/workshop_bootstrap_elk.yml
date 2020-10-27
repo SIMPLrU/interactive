@@ -27,34 +27,6 @@ services:
     - 3005:3000
 
 ############################
-# Grafana - metric analytics
-############################ 
- grafana:
-  image: grafana/grafana
-  container_name: grafana
-  networks:
-   - kong-net
-  volumes:
-    - ./cfg/grafana/:/etc/grafana/provisioning/
-  ports:
-   - 10100:3000
-
-############################
-# Prometheus - monitoring
-############################ 
- prometheus:
-  image: prom/prometheus
-  container_name: prometheus
-  networks:
-   - kong-net
-  hostname: prometheus
-  volumes:
-   - ./cfg/prometheus.yml:/etc/prometheus/prometheus.yml
-  command: "--config.file=/etc/prometheus/prometheus.yml --storage.tsdb.path=/prometheus"
-  ports:
-   - 9090:9090
-
-############################
 # syslog - logs
 ############################ 
  syslog:
@@ -84,7 +56,6 @@ services:
    - 5432:5432
   # volumes:
   # - ./postgres-data:/var/lib/postgresql/data
-
 
 ############################
 # Kong bootstrap
