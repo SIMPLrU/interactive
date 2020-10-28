@@ -1,6 +1,7 @@
 #!/bin/bash
 # stops script on first error
 # set -e
+export KIBANA=http://ip$LOCAL_IP-$SESSION_ID-5601.$DIRECT
 
 systemctl is-active docker.service || systemctl start docker
 cd docker-compose && docker-compose -f workshop_bootstrap_elk.yml up -d
