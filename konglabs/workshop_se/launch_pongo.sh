@@ -12,6 +12,7 @@ export PATH=~/.local/bin/:$PATH
 ln -s $(realpath kong-pongo/pongo.sh) ~/.local/bin/pongo
 
 # run Pongo
+cd kong-plugin
 pongo run
 
 
