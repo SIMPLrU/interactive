@@ -121,6 +121,11 @@ services:
     environment:
       - KONG_CASSANDRA_CONTACT_POINTS=cassandra
       - KONG_PG_HOST=postgres
+      - KONG_ADMIN_GUI_URL=$KONG_GUI
+      - KONG_PROXY_URL=$KONG_8000
+      - KONG_ADMIN_API_URI=$KONG_8001
+      - KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST   
+      - KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL
     networks:
       - ${NETWORK_NAME}
     volumes:
