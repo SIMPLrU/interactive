@@ -6,7 +6,7 @@ function globals {
   # Project related global variables
   LOCAL_PATH=$(dirname "$(realpath "$0")")
   DOCKER_FILE=${LOCAL_PATH}/assets/Dockerfile
-  DOCKER_COMPOSE_FILES="-f ${LOCAL_PATH}/assets/docker-compose.yml"
+  DOCKER_COMPOSE_FILES="-f ${LOCAL_PATH}/assets/docker-compose-kjg.yml"
   PROJECT_NAME=kong-pongo
   NETWORK_NAME=pongo-test-network
   SERVICE_NETWORK_NAME=${PROJECT_NAME}
@@ -1041,12 +1041,6 @@ function main {
       -e "KONG_PG_DATABASE=kong_tests" \
       -e "KONG_PLUGINS=$PLUGINS" \
       -e "KONG_CUSTOM_PLUGINS=$CUSTOM_PLUGINS" \
-      -e "KONG_ADMIN_GUI_URL=$KONG_GUI" \
-      -e "KONG_PROXY_URL=$KONG_8000" \
-      -e "KONG_ADMIN_API_URI=$KONG_8001" \
-      -e "KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST" \
-      -e "KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL" \
-      -e "KONG_ADMIN_GUI_SESSION_CONF={"secret":"admin_gui","storage":"kong","cookie_secure":false, "cookie_name":"admin_gui_kookie", "cookie_samesite":"off"}" \
       kong luacheck .
     ;;
 
@@ -1067,12 +1061,6 @@ function main {
       -e "KONG_PG_DATABASE=kong_tests" \
       -e "KONG_PLUGINS=$PLUGINS" \
       -e "KONG_CUSTOM_PLUGINS=$CUSTOM_PLUGINS" \
-      -e "KONG_ADMIN_GUI_URL=$KONG_GUI" \
-      -e "KONG_PROXY_URL=$KONG_8000" \
-      -e "KONG_ADMIN_API_URI=$KONG_8001" \
-      -e "KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST" \
-      -e "KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL" \
-      -e "KONG_ADMIN_GUI_SESSION_CONF={"secret":"admin_gui","storage":"kong","cookie_secure":false, "cookie_name":"admin_gui_kookie", "cookie_samesite":"off"}" \
       kong pongo_pack
     ;;
 
