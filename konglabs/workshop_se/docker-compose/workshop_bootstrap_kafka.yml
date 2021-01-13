@@ -114,6 +114,8 @@ services:
 #   - KONG_PORTAL=on
 #   - KONG_PORTAL_SESSION_CONF={"secret":"portal_secret","storage":"kong","cookie_secure":false, "cookie_name":"portal_kookie", "cookie_samesite":"off"} #KJG
 #   - KONG_PORTAL_AUTH=basic-auth
+networks:
+  kong-net:
 
 ############################
 # Zookeeper and Kafka
@@ -139,5 +141,3 @@ services:
      ports:
        - 9082:9082
 
-networks:
-  kong-net:
