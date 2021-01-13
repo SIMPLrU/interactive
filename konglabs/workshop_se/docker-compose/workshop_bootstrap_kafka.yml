@@ -114,29 +114,33 @@ services:
 #   - KONG_PORTAL=on
 #   - KONG_PORTAL_SESSION_CONF={"secret":"portal_secret","storage":"kong","cookie_secure":false, "cookie_name":"portal_kookie", "cookie_samesite":"off"} #KJG
 #   - KONG_PORTAL_AUTH=basic-auth
-networks:
-  kong-net:
 
 ############################
 # Zookeeper and Kafka
 ############################ 
  zookeeper:
-   image: bitnami/zookeeper:3.5.6
-   container_name: zookeeper.backends
-   environment:  
-      - ALLOW_ANONYMOUS_LOGIN=yes
-   ports:
-      - 2181:2181
+  image: bitnami/zookeeper:3.5.6
+  container_name: zookeeper.backends
+  environment:  
+   - ALLOW_ANONYMOUS_LOGIN=yes
+  ports:
+   - 2181:2181
+  networks:
+   - kong-net
 
  kafka:
-   image: bitnami/kafka:2.3.1
-   container_name: kafka
-   depends_on:
-      - zookeeper
-   restart: on-failure
-   environment:
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
-      - ALLOW_PLAINTEXT_LISTENER=yes
-   ports:
-      - 9082:9082
+  image: bitnami/kafka:2.3.1
+  container_name: kafka
+  depends_on:
+   - zookeeper
+  restart: on-failure
+  environment:
+   - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+   - ALLOW_PLAINTEXT_LISTENER=yes
+  ports:
+   - 9082:9082
+  networks:
+   - kong-net
 
+networks:
+   kong-net:
