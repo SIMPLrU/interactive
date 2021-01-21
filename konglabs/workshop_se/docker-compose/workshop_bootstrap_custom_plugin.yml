@@ -4,7 +4,7 @@ services:
 ############################
 # Postgres - Kong Database
 ############################ 
- postgres:
+ kong-ee-database:
   image: postgres:9.6
   networks:
    - kong-ee-custom-net
@@ -52,7 +52,7 @@ services:
   image: kong-ee-custom
   container_name: kong-ee-custom
   depends_on:
-   - postgres
+   - kong-ee-database
   restart: always
   ports:
    - 8000:8000
