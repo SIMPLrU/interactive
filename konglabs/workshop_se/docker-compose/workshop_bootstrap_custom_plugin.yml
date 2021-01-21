@@ -1,0 +1,123 @@
+version: "3"
+services:
+
+############################
+# Postgres - Kong Database
+############################ 
+ postgres:
+  image: postgres:9.6
+  networks:
+   - kong-ee-custom-net
+  restart: always
+  container_name: kong-ee-database
+  environment:
+   - POSTGRES_USER=kong
+   - POSTGRES_DB=kong
+   - POSTGRES_PASSWORD=kong
+  ports:
+   - 5432:5432
+  # volumes:
+  # - ./postgres-data:/var/lib/postgresql/data
+
+
+############################
+# Kong bootstrap
+############################ 
+ kong-ent-bootstrap:
+  image: kong-ee-custom
+  container_name: kong-ent-bootstrap
+  hostname: kongBootstrap
+  links:
+   - kong-ee-database
+  depends_on:
+   - kong-ee-database
+  restart: on-failure
+  command: "kong migrations bootstrap"
+  networks:
+   - kong-ee-custom-net
+  environment:
+   - KONG_LICENSE_DATA=$KONG_LICENSE_DATA
+   - KONG_PASSWORD=kong_admin
+   - KONG_AUDIT_LOG=on
+   - KONG_LOG_LEVEL=debug
+   - KONG_DATABASE=postgres
+   - KONG_PG_HOST=kong-ee-database
+   - KONG_PG_PASSWORD=kong
+   - kong
+
+############################
+# Kong - API Gateway
+############################    
+ kong-ent:
+  image: kong-ee-custom
+  container_name: kong-ee-custom
+  depends_on:
+   - postgres
+  restart: always
+  ports:
+   - 8000:8000
+   - 8001:8001
+   - 8002:8002
+   - 8003:8003
+   - 8004:8004
+   - 8443:8443
+   - 8444:8444
+   - 8445:8445
+   - 8446:8446
+   - 8447:8447
+  networks:
+   - kong-ee-custom-net
+  command: "kong start --run-migrations" #NOT PRODUCTION
+  environment:
+   - KONG_DATABASE=postgres
+   - KONG_PG_HOST=kong-ee-database
+   - KONG_PG_PASSWORD=kong
+   - KONG_CASSANDRA_CONTACT_POINTS=kong-ee-database
+   - KONG_PROXY_ACCESS_LOG=/dev/stdout
+   - KONG_ADMIN_ACCESS_LOG=/dev/stdout
+   - KONG_PROXY_ERROR_LOG=/dev/stderr
+   - KONG_ADMIN_ERROR_LOG=/dev/stderr
+   - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
+   - KONG_PASSWORD=kong
+   - KONG_PORTAL_GUI_PROTOCOL=http
+   - KONG_AUDIT_LOG=on
+   - KONG_LOG_LEVEL=debug
+   - KONG_PORTAL_AUTH_CONF=$KONG_PORTAL_AUTH_CONF #?
+   - KONG_VITALS=on
+   - KONG_ANONYMOUS_REPORTS=off
+   - KONG_PROXY_LISTEN=0.0.0.0:8000, 0.0.0.0:8443 ssl
+   - KONG_ADMIN_GUI_LISTEN=0.0.0.0:8002, 0.0.0.0:8445 ssl
+   - KONG_PORTAL_GUI_LISTEN=0.0.0.0:8003, 0.0.0.0:8446 ssl
+   - KONG_PORTAL_API_LISTEN=0.0.0.0:8004, 0.0.0.0:8447 ssl
+   - KONG_PORTAL_EMAILS_FROM=learn@konghq.com
+   - KONG_PORTAL_EMAILS_REPLY_TO=learn@konghq.com
+   - KONG_SMTP_MOCK=off
+   - KONG_SMTP_HOST=mail.konghq.com
+   - KONG_SMTP_PORT=587
+   - KONG_SMTP_AUTH_TYPE=plain
+   - KONG_SMTP_STARTTLS=on
+   - KONG_SMTP_USERNAME=learn@konghq.com
+   - KONG_SMTP_PASSWORD=kong_admin
+   - KONG_SMTP_ADMIN_EMAILS=learn@konghq.com
+   - KONG_VITALS_STRATEGY=database # or 'influxdb' or 'prometheus' or 'database'
+   - KONG_VITALS_TSDB_ADDRESS=prometheus:9090
+   - KONG_VITALS_STATSD_ADDRESS=statsd_exporter:9125
+#   - KONG_PORTAL_AUTH=openid-connect
+
+# SETTING SPECIFIC TO TRAINING ENVIRONMENT
+   - KONG_LICENSE_DATA=$KONG_LICENSE_DATA
+   - KONG_ADMIN_GUI_URL=$KONG_GUI
+   - KONG_PROXY_URL=$KONG_8000
+   - KONG_ADMIN_API_URI=$KONG_8001
+   - KONG_PORTAL_GUI_HOST=$KONG_PORTAL_GUI_HOST   
+   - KONG_PORTAL_API_URL=$KONG_PORTAL_API_URL
+
+# PRODUCTION SETTING - Uncomment to enable Kong Manager in production environment.
+#   - KONG_ENFORCE_RBAC=on
+#   - KONG_ADMIN_GUI_AUTH=basic-auth
+#   - KONG_ADMIN_GUI_SESSION_CONF={"secret":"admin_gui_secret","storage":"kong","cookie_secure":false, "cookie_name":"admin_gui_kookie", "cookie_samesite":"off"}
+   - KONG_PORTAL=on
+   - KONG_PORTAL_SESSION_CONF={"secret":"portal_secret","storage":"kong","cookie_secure":false, "cookie_name":"portal_kookie", "cookie_samesite":"off"} #KJG
+#   - KONG_PORTAL_AUTH=basic-auth
+networks:
+   kong-ee-custom-net:
