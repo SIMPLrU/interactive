@@ -1,6 +1,7 @@
 #!/bin/bash
 # stops script on first error
 # set -e
+systemctl is-active docker.service || systemctl start docker
 
 mkdir -p ~/.local/bin
 # export variables
