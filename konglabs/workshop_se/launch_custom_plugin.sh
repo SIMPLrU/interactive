@@ -24,5 +24,5 @@ done
 
 # Install Mocking Plugin
 echo "Mocking Plugin installing ..."
-docker cp temp/kong-plugin-mocking/kong/plugins/mocking/  kong-ent:/usr/local/share/lua/5.1/kong/plugins
+docker cp temp/kong-plugin-mocking/kong/plugins/mocking/  kong-ee-custom:/usr/local/share/lua/5.1/kong/plugins
 docker exec -ti kong-ent /bin/sh -c "KONG_PLUGINS='bundled,mocking' kong reload" && rm -Rf temp
