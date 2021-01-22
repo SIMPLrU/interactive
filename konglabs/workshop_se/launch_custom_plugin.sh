@@ -2,6 +2,7 @@
 # stops script on first error
 # set -e
 systemctl is-active docker.service || systemctl start docker
+rm -rf servroot/pids/nginx.pid
 cd docker-compose && docker-compose -f workshop_bootstrap_custom_plugin.yml up -d
 
 
