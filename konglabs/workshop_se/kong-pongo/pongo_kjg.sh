@@ -669,7 +669,7 @@ function get_plugin_names {
 
 
 function pongo_clean {
-  compose down
+  compose down --remove-orphans
 
   docker images --filter=reference="${IMAGE_BASE_NAME}:*" --format "found: {{.ID}}" | grep found
   if [[ $? -eq 0 ]]; then
@@ -875,11 +875,11 @@ function main {
     ;;
 
   down)
-    compose down
+    compose down --remove-orphans
     ;;
 
   restart)
-    compose down
+    compose down --remove-orphans
     compose_up
     ;;
 
