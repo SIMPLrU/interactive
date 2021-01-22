@@ -79,6 +79,7 @@ services:
    - KONG_ADMIN_ERROR_LOG=/dev/stderr
    - KONG_ADMIN_LISTEN=0.0.0.0:8001, 0.0.0.0:8444 ssl
    - KONG_PASSWORD=kong
+   - KONG_PLUGINS=myplugin,bundled
    - KONG_PORTAL_GUI_PROTOCOL=http
    - KONG_AUDIT_LOG=on
    - KONG_LOG_LEVEL=debug
