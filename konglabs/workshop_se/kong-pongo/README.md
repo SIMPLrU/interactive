@@ -29,7 +29,7 @@ Project actions:
                 distribution (see LuaRocks package manager docs)
 
   run           run spec files, accepts Busted options and spec files/folders
-                as arguments, see: '$(basename $0) run -- --help'
+                as arguments, see: 'pongo run -- --help'
 
   shell         get a shell directly on a kong container
 
@@ -137,7 +137,7 @@ See [Setting up CI](#setting-up-ci) for some Bintray environment variable exampl
 Clone the repository and install Pongo:
 ```shell
 PATH=$PATH:~/.local/bin
-git clone git@github.com:Kong/kong-pongo.git
+git clone https://github.com/Kong/kong-pongo.git
 mkdir -p ~/.local/bin
 ln -s $(realpath kong-pongo/pongo.sh) ~/.local/bin/pongo
 ```
@@ -149,7 +149,7 @@ ln -s $(realpath kong-pongo/pongo.sh) ~/.local/bin/pongo
 Get a shell into your plugin repository, and run `pongo`, for example:
 
 ```shell
-git clone git@github.com:Kong/kong-plugin.git
+git clone https://github.com/Kong/kong-plugin.git
 cd kong-plugin
 
 # auto pull and build the test images
@@ -193,7 +193,7 @@ To run Pongo on Windows you can use [WSL2](https://docs.microsoft.com/windows/ws
       sudo apt install git curl coreutils
 
       cd ~
-      git clone git@github.com:Kong/kong-pongo.git
+      git clone https://github.com/Kong/kong-pongo.git
       mkdir -p ~/.local/bin
       ln -s $(realpath kong-pongo/pongo.sh) ~/.local/bin/pongo
       PATH=$PATH:~/.local/bin
@@ -490,6 +490,8 @@ rm -rf lua-resty-session
 Pongo is easily added to a CI setup. The examples below will asume Travis-CI, but
 can be easily converted to other engines.
 
+**Note**: if your engine of preference runs itself in Docker, then checkout [Pongo in Docker](#running-pongo-in-docker).
+
 Here's a base setup for an open-source plugin that will test against 2 Kong versions:
 ```yaml
 # .travis.yml
@@ -516,8 +518,6 @@ script:
 [Back to ToC](#table-of-contents)
 
 ### CI against nightly builds
-
-__**This is not yet available!!**__
 
 To test against nightly builds, the CRON option for Travis-CI should be configured.
 This will trigger a daily test-run.
@@ -581,7 +581,7 @@ env:
 
 Now you can update the `jobs` section and add Kong Enterprise version numbers.
 
-NOTE: the variable PONGO_SECRETS_AVAILABLE works the same as [TRAVIS_SECURE_ENV_VARS](https://docs.travis-ci.com/user/environment-variables/#default-environment-variables).
+**Note**: the variable PONGO_SECRETS_AVAILABLE works the same as [TRAVIS_SECURE_ENV_VARS](https://docs.travis-ci.com/user/environment-variables/#default-environment-variables).
 If you receive PR's from outside your organization, then the secrets will not be
 available on a CI run, this will cause the build to always fail. If you set this
 variable to `false` then Pongo will print only a warning and exit with success.
@@ -597,7 +597,7 @@ need to set it)
 
 ### CI with Kong Enterprise nightly
 
-**NOTE: this is NOT publicly available, only Kong internal**
+**Note: this is NOT publicly available, only Kong internal**
 
 This build will also require a CRON job to build on a daily basis, but also
 requires additional credentials to access the Kong Enterprise master image.
@@ -617,6 +617,11 @@ For this to work the following variables must be present:
 
 At least the api-key must be encrypted as a secret. Follow the instructions above
 to encrypt and add them to the `.travis.yml` file.
+
+For the Nightly builds Pongo needs to pull the Kong-EE source. If the repo
+under test does not have access, then a valid GitHub access token is also
+required to refresh the Kong Enterprise code, and must be specified as a
+`GITHUB_TOKEN` environment variable.
 
 [Back to ToC](#table-of-contents)
 
