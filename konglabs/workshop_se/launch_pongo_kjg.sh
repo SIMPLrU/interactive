@@ -2,6 +2,7 @@
 # stops script on first error
 # set -e
 systemctl is-active docker.service || systemctl start docker
+rm -rf servroot/pids/nginx.pid
 
 mkdir -p ~/.local/bin
 # export variables
