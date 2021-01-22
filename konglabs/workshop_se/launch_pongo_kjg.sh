@@ -15,5 +15,3 @@ ln -s $(realpath kong-pongo/pongo_kjg.sh) ~/.local/bin/pongo
 # run Pongo
 cd kong-plugin
 pongo run
-
-
