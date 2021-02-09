@@ -1,6 +1,7 @@
 #!/bin/bash
 # stops script on first error
 # set -e
+# check docker
 
 systemctl is-active docker.service || systemctl start docker
 cd docker-compose && docker-compose -f workshop_bootstrap.yml up -d
