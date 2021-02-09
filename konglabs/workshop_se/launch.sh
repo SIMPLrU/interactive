@@ -1,5 +1,5 @@
 #!/bin/bash
-# stops script on first error
+# stops script on error
 # set -e
 
 systemctl is-active docker.service || systemctl start docker
