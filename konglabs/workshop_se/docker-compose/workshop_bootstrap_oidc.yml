@@ -22,7 +22,7 @@ services:
 # Kong bootstrap
 ############################ 
  kong-ent-bootstrap:
-  image: kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition:1.5.0.2-alpine
+  image: kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition:$KONG_EE_VERSION
   container_name: kong-ent-bootstrap
   hostname: kongBootstrap
   links:
@@ -45,7 +45,7 @@ services:
 # Kong - API Gateway
 ############################    
  kong-ent:
-  image: kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition:1.5.0.2-alpine
+  image: kong-docker-kong-enterprise-edition-docker.bintray.io/kong-enterprise-edition:$KONG_EE_VERSION
   container_name: kong-ent
   depends_on:
    - postgres

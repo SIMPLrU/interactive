@@ -3,6 +3,8 @@
 # set -e
 # start docker
 
+export KONG_EE_VERSION=2.3.2.0-centos
+
 systemctl is-active docker.service || systemctl start docker
 cd docker-compose && docker-compose -f workshop_bootstrap_rbac.yml up -d
 

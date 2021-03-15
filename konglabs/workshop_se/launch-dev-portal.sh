@@ -2,6 +2,8 @@
 # stops script on first error
 # set -e
 
+export KONG_EE_VERSION=2.3.2.0-centos
+
 systemctl is-active docker.service || systemctl start docker
 # launch-dev-portal.sh
 cd docker-compose && docker-compose -f workshop_bootstrap_dev_portal.yml up -d
