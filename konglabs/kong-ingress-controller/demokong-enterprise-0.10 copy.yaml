@@ -680,8 +680,8 @@ spec:
         livenessProbe:
           failureThreshold: 3
           httpGet:
-            path: /status
-            port: 8100
+            path: /health
+            port: 9001
             scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 10
@@ -695,26 +695,30 @@ spec:
         - containerPort: 8443
           name: proxy-ssl
           protocol: TCP
-        - containerPort: 8100
+        - containerPort: 9542
           name: metrics
           protocol: TCP
         readinessProbe:
           failureThreshold: 3
           httpGet:
-            path: /status
-            port: 8100
+            path: /health
+            port: 9001
             scheme: HTTP
           initialDelaySeconds: 5
           periodSeconds: 10
           successThreshold: 1
           timeoutSeconds: 1
+        securityContext:
+          runAsUser: 1000
+        volumeMounts:
+        - mountPath: /kong
+          name: kong-server-blocks
+      - args:
+        - /kong-ingress-controller
+        - --kong-url=https://localhost:8444
+        - --admin-tls-skip-verify
+        - --publish-service=kong/kong-proxy
         env:
-        - name: CONTROLLER_KONG_ADMIN_URL
-          value: https://127.0.0.1:8444
-        - name: CONTROLLER_KONG_ADMIN_TLS_SKIP_VERIFY
-          value: "true"
-        - name: CONTROLLER_PUBLISH_SERVICE
-          value: kong/kong-proxy
         - name: POD_NAME
           valueFrom:
             fieldRef:
@@ -725,7 +729,7 @@ spec:
             fieldRef:
               apiVersion: v1
               fieldPath: metadata.namespace
-        image: kong-docker-kubernetes-ingress-controller.bintray.io/kong-ingress-controller:1.1
+        image: kong-docker-kubernetes-ingress-controller.bintray.io/kong-ingress-controller:0.10.0
         imagePullPolicy: IfNotPresent
         livenessProbe:
           failureThreshold: 3
