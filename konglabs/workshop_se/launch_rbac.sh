@@ -16,7 +16,7 @@ sleep 5s
 
 while true
 do
-    STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" localhost:8001/status)
+    STATUS_CODE=$(curl -s -o /dev/null -w "%{http_code}" localhost:8001/status Kong-Admin-Token:kong_admin)
     if [ $STATUS_CODE -eq 200 ]; then
 	http get :8001 Kong-Admin-Token:kong_admin && echo "OK" 
 	break
