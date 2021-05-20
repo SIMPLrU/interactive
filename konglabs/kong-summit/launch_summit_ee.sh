@@ -2,9 +2,10 @@
 # stops script on first error
 # set -e
 
+export KONG_EE_VERSION=2.3.2.0-centos
+
 # Check if docker is active, if not: start docker
 systemctl is-active docker.service || systemctl start docker
-
 cd docker-compose
 docker-compose -f workshop_bootstrap_summit_ee.yml up -d
 
