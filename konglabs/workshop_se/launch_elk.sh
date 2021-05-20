@@ -7,6 +7,7 @@ export KONG_EE_VERSION=2.3.2.0-centos
 systemctl is-active docker.service || systemctl start docker
 docker rmi -f 785a9bc72f3
 docker rmi -f 91184190279
+clear
 cd docker-compose && docker-compose -f workshop_bootstrap_elk.yml up -d
 
 echo "please wait..."
