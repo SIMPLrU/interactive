@@ -3,6 +3,8 @@
 # set -e
 
 systemctl is-active docker.service || systemctl start docker
+docker rmi -f 785a9bc72f3
+docker rmi -f 91184190279
 cd docker-compose && docker-compose -f workshop_bootstrap_elk.yml up -d
 
 echo "please wait..."
