@@ -3,6 +3,8 @@
 # set -e
 
 export KONG_EE_VERSION=2.3.2.0-centos
+export KONG_LICENSE_DATA='{"license":{"version":1,"signature":"280a98828585926337942b5f3f0e86366a790f05f87fd763012e694c01c5eb8653ad530be5b7ce77faa53d9454615f967446e1e545180985eeb239d7d4da5e48","payload":{"customer":"Kong Inc","license_creation_date":"2021-7-1","product_subscription":"Kong Enterprise Edition","support_plan":"None","admin_seats":"5","dataplanes":"0","license_expiration_date":"2021-09-29","license_key":"0011K000022IA3HQAW_a1V1K0000084N7bUAE"}}}'
+
 
 systemctl is-active docker.service || systemctl start docker
 # launch-dev-portal.sh
