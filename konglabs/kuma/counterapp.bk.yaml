@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: redis
-          image: "redis:kjg.v.1.0" ## KJG modified to use specific redis version
+          image: "redis"
           ports:
             - name: tcp
               containerPort: 6379
@@ -61,7 +61,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: "thefosk/kuma-demo:kjg.v.1.0" ## KJG - modified for specific version
+          image: "thefosk/kuma-demo"
           env:
             - name: REDIS_HOST
               value: "redis.kuma-demo.svc.cluster.local"
@@ -93,7 +93,7 @@ spec:
     spec:
       containers:
         - name: demo-app
-          image: "thefosk/kuma-demo:kjg.v.1.0" ## KJG - modified for specific version
+          image: "thefosk/kuma-demo"
           env:
             - name: REDIS_HOST
               value: "redis.kuma-demo.svc.cluster.local"
