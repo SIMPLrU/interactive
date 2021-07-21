@@ -5,9 +5,11 @@
 systemctl is-active docker.service || systemctl start docker
 
 # HouseKeeping
+LAB=kuma
+PATH=$PATH:/root/kuma/kong-mesh-1.3.2/bin
 mv /root/kong-mesh-1.3.2 /root/$LAB/
-export PATH=$PATH:/root/kuma/kong-mesh-1.3.2/bin
-export LAB=kuma
+docker tag redis redis:kjg.v.1.0
+docker tag thefosk/kuma-demo thefosk/kuma-demo:kjg.v.1.0
 
 
 # DEPLOY K3S SERVER
